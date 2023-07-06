@@ -8,6 +8,8 @@
 # python3 update_workflow.py __path_to_ci_file__
 #
 
+quote_os=True
+
 import sys
 import re
 import shutil
@@ -21,29 +23,30 @@ with open(targetfile, 'r') as file:
 
 # Add single quotes around operating system names if they are missing. 'ubuntu-latest'
 
-data=re.sub(
-    pattern=r'([^"\'])(\S*)-latest([^"\'])',
-    repl='\\1\'\\2-latest\'\\3',
-    string=data
-)
+if quote_os:
+    data=re.sub(
+        pattern=r'([^"\'])(\S*)-latest([^"\'])',
+        repl='\\1\'\\2-latest\'\\3',
+        string=data
+    )
 
-data=re.sub(
-    pattern=r'([^"\'])ubuntu-(\d\d)\.(\d\d)([^"\'])',
-    repl='\\1\'ubuntu-\\2.\\3\'\\4',
-    string=data
-)
+    data=re.sub(
+        pattern=r'([^"\'])ubuntu-(\d\d)\.(\d\d)([^"\'])',
+        repl='\\1\'ubuntu-\\2.\\3\'\\4',
+        string=data
+    )
 
-data=re.sub(
-    pattern=r'([^"\'])windows-(\d{4})([^"\'])',
-    repl='\\1\'windows-\\2\'\\3',
-    string=data
-)
+    data=re.sub(
+        pattern=r'([^"\'])windows-(\d{4})([^"\'])',
+        repl='\\1\'windows-\\2\'\\3',
+        string=data
+    )
 
-data=re.sub(
-    pattern=r'([^"\'])macos-(\d{2})([^"\'])',
-    repl='\\1\'macos-\\2\'\\3',
-    string=data
-)
+    data=re.sub(
+        pattern=r'([^"\'])macos-(\d{2})([^"\'])',
+        repl='\\1\'macos-\\2\'\\3',
+        string=data
+    )
 
 data=re.sub(
     pattern=r'([^\S\r\n]*)runs-on: \${{\s*matrix.os\s*}}',
